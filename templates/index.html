@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Stock Price Prediction{% endblock %}
+
+{% block content %}
+    <h1 style="text-align: center;">Stock Price Prediction</h1>
+    <div class="center-form">
+        <!-- Form for stock symbol input -->
+        <form method="post">
+            <input type="text" name="stock_symbol" placeholder="Enter Stock Symbol">
+            <button type="submit">Predict</button>
+        </form>
+    </div>
+    <div class="content-container">
+        <!-- Additional content can be added here -->
+    </div>
+
+    <!-- Prediction and Current Price Boxes Container -->
+    <div class="prices-container">
+        <!-- Prediction Box -->
+        <div class="predictionbox">
+            {% if prediction %}
+                <h2>Predicted Price: ${{ prediction | round(4) }}</h2>
+                <h3>Predicted Date: {{ predicted_date }}</h3>
+                <h3>Stock Symbol: {{ stock_symbol }}</h3>
+            {% endif %}
+        </div>
+
+        <!-- Current Price Box -->
+        <div class="current-price-box">
+            {% if current_price %}
+                <h2>Current Price: ${{ current_price | round(4) }}</h2>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Charts Container -->
+    <div class="charts-container">
+        <!-- Chart for the Prediction -->
+        <div class="chart-container">
+            <canvas id="stockChart"></canvas>
+        </div>
+        <div class="charts-flexbox">
+            <div class="chart-container">
+                <canvas id="currentPriceChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <!-- JavaScript for Stock Chart -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('stockChart').getContext('2d');
+    
+            // Data for the stock chart
+            const dates = {{ dates | tojson | safe }};
+            const actual_prices = {{ actual_prices | tojson | safe }};
+            const predicted_prices = {{ predicted_prices | tojson | safe }};
+    
+            // Chart configuration
+            const stockChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Actual Price',
+                        data: actual_prices,
+                        borderColor: 'rgb(255, 99, 132)',
+                        borderWidth: 2,
+                        fill: false
+                    }, {
+                        label: 'Predicted Price',
+                        data: predicted_prices,
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: chartOptions('Stock Price Prediction')
+            });
+        });
+
+        function chartOptions(titleText) {
+            return {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: titleText
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Date'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Price'
+                        }
+                    }]
+                }
+            };
+        }
+    </script>
+
+    <!-- JavaScript for Current Price Chart -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctxCurrent = document.getElementById('currentPriceChart').getContext('2d');
+    
+            // Data for the current price chart
+            const current_price = {{ current_price | tojson | safe }};
+    
+            // Chart configuration
+            const currentPriceChart = new Chart(ctxCurrent, {
+                type: 'bar',
+                data: {
+                    labels: ['Current Price'],
+                    datasets: [{
+                        label: 'Price',
+                        data: [current_price],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

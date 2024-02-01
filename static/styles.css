@@ -1,0 +1,93 @@
+.charts-flexbox {
+    display: flex;
+    justify-content: space-between; /* Adjust space between charts */
+    align-items: center; /* Align charts vertically */
+}
+
+/* Common style for both chart containers */
+.chart-container {
+    margin: 10px; /* Margin around each chart */
+}
+
+/* Style for the predicted price chart container */
+.chart-container:first-child {
+    width: 60%; /* Adjust the width for the larger chart */
+    height:300px;
+
+}
+
+/* Style for the current price chart container */
+.chart-container:last-child {
+    width: 30%; /* Adjust the width for the smaller chart */
+    max-height:200%;
+    
+}
+
+/* Container for both the prediction and current price boxes */
+.prices-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: stretch;
+}
+
+
+
+
+.charts-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart-container {
+    flex-grow: 1; 
+
+}
+
+
+/*stock search bar */
+.center-form{
+
+    justify-content: left;
+    display: flex;
+    margin: 0px auto;
+    padding: 10px;
+    background-color: rgb(206, 238, 238);
+    border-radius: 15px;
+    
+}
+
+.content-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.predictionbox{
+    margin: 0px auto;
+    border:5px solid rgba(67, 89, 94, 0.715);
+    border-radius: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    flex-grow: 1;
+    width: 70%;
+}
+.current-price-box{
+    border:5px solid rgba(67, 89, 94, 0.715);
+    border-radius: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+}
+
+/* Title styling*/
+h1{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 50px;
+    color:rgb(1, 8, 17)
+}
+
+
+
+
+
+
+
